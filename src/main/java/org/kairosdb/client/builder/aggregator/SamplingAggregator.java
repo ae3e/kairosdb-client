@@ -35,6 +35,9 @@ public class SamplingAggregator extends Aggregator
 	@SerializedName("start_time")
 	private Long startTime;
 
+	@SerializedName("trim")
+	private Boolean trim;
+	
 	public SamplingAggregator(String name, int value, TimeUnit unit)
 	{
 		super(name);
@@ -42,7 +45,7 @@ public class SamplingAggregator extends Aggregator
 
 		sampling = new Sampling(value, unit);
 	}
-
+	
 	public int getValue()
 	{
 		return sampling.value;
@@ -53,6 +56,13 @@ public class SamplingAggregator extends Aggregator
 		return sampling.unit;
 	}
 
+	public SamplingAggregator withTrim()
+	{
+		trim = true;
+
+		return this;
+	}
+	
 	/**
 	 * <p>
 	 * Alignment based on the sampling size. For example if your sample size is either milliseconds,
@@ -122,6 +132,11 @@ public class SamplingAggregator extends Aggregator
 		return this;
 	}
 
+	public Boolean isTrim()
+	{
+		return trim != null ? trim : false;
+	}
+	
 	public Boolean isAlignStartTime()
 	{
 		return alignStartTime != null ? alignStartTime : false;
